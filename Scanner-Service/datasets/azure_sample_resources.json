@@ -1,0 +1,113 @@
+{
+  "provider": "azure",
+  "subscription_id": "aaaabbbb-cccc-dddd-eeee-ffffffffffff",
+  "subscription_name": "my-azure-prod",
+  "scan_timestamp": "2024-01-15T10:00:00Z",
+  "resources": {
+    "virtual_machines": [
+      {
+        "vm_id": "/subscriptions/aaaa/resourceGroups/rg-prod/providers/Microsoft.Compute/virtualMachines/vm-web-01",
+        "vm_name": "vm-web-01",
+        "vm_size": "Standard_D4s_v3",
+        "power_state": "VM running",
+        "location": "eastus",
+        "resource_group": "rg-prod",
+        "os_type": "Linux",
+        "cpu_utilization_avg_7d": 1.8,
+        "network_in_avg_7d_mbps": 0.08,
+        "tags": {"env": "production", "team": "frontend"},
+        "monthly_cost": 140.16,
+        "is_zombie": true,
+        "zombie_reason": "CPU utilization below 5% for 7 consecutive days"
+      },
+      {
+        "vm_id": "/subscriptions/aaaa/resourceGroups/rg-prod/providers/Microsoft.Compute/virtualMachines/vm-api-01",
+        "vm_name": "vm-api-01",
+        "vm_size": "Standard_E8s_v3",
+        "power_state": "VM running",
+        "location": "eastus",
+        "resource_group": "rg-prod",
+        "cpu_utilization_avg_7d": 65.3,
+        "tags": {"env": "production", "team": "api"},
+        "monthly_cost": 504.54,
+        "is_zombie": false
+      },
+      {
+        "vm_id": "/subscriptions/aaaa/resourceGroups/rg-dev/providers/Microsoft.Compute/virtualMachines/vm-dev-old",
+        "vm_name": "vm-dev-old",
+        "vm_size": "Standard_NC6",
+        "power_state": "VM deallocated",
+        "location": "westeurope",
+        "resource_group": "rg-dev",
+        "cpu_utilization_avg_7d": 0.0,
+        "tags": {"env": "dev"},
+        "monthly_cost": 65.70,
+        "is_zombie": true,
+        "zombie_reason": "Deallocated GPU VM — still incurring managed disk charges"
+      }
+    ],
+    "managed_disks": [
+      {
+        "disk_id": "/subscriptions/aaaa/resourceGroups/rg-prod/providers/Microsoft.Compute/disks/disk-orphan-01",
+        "disk_name": "disk-orphan-01",
+        "disk_size_gb": 512,
+        "disk_type": "Premium_LRS",
+        "state": "Unattached",
+        "location": "eastus",
+        "monthly_cost": 69.63,
+        "is_zombie": true,
+        "zombie_reason": "Unattached Premium managed disk for 60+ days"
+      },
+      {
+        "disk_id": "/subscriptions/aaaa/resourceGroups/rg-prod/providers/Microsoft.Compute/disks/disk-api-01-os",
+        "disk_name": "disk-api-01-os",
+        "disk_size_gb": 128,
+        "disk_type": "Premium_LRS",
+        "state": "Attached",
+        "attached_to": "vm-api-01",
+        "location": "eastus",
+        "monthly_cost": 17.41,
+        "is_zombie": false
+      }
+    ],
+    "storage_accounts": [
+      {
+        "account_id": "/subscriptions/aaaa/resourceGroups/rg-logs/providers/Microsoft.Storage/storageAccounts/oldlogstorage2022",
+        "account_name": "oldlogstorage2022",
+        "performance_tier": "Standard",
+        "replication": "GRS",
+        "location": "eastus",
+        "size_gb": 3200,
+        "last_accessed": "2023-02-10T00:00:00Z",
+        "tags": {"purpose": "logs"},
+        "monthly_cost": 128.00,
+        "is_zombie": true,
+        "zombie_reason": "Storage account not accessed in 11+ months"
+      },
+      {
+        "account_name": "prodmediablobs",
+        "performance_tier": "Standard",
+        "replication": "LRS",
+        "location": "eastus",
+        "size_gb": 600,
+        "last_accessed": "2024-01-14T00:00:00Z",
+        "monthly_cost": 12.00,
+        "is_zombie": false
+      }
+    ]
+  },
+  "cost_summary": {
+    "total_monthly_cost": 937.44,
+    "wasted_monthly_cost": 403.49,
+    "potential_savings_pct": 43.0,
+    "by_service": {
+      "virtual_machines": 710.40,
+      "managed_disks": 87.04,
+      "storage_accounts": 140.00
+    },
+    "by_region": {
+      "eastus": 871.74,
+      "westeurope": 65.70
+    }
+  }
+}
