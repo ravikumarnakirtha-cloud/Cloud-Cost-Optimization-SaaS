@@ -1,0 +1,171 @@
+{
+  "provider": "aws",
+  "account_id": "123456789012",
+  "account_alias": "my-aws-prod",
+  "scan_timestamp": "2024-01-15T10:00:00Z",
+  "resources": {
+    "ec2_instances": [
+      {
+        "instance_id": "i-0a1b2c3d4e5f60001",
+        "instance_name": "prod-web-server-1",
+        "instance_type": "t3.xlarge",
+        "state": "running",
+        "region": "us-east-1",
+        "launch_time": "2023-06-01T08:00:00Z",
+        "availability_zone": "us-east-1a",
+        "private_ip": "10.0.1.10",
+        "public_ip": "54.210.10.1",
+        "cpu_utilization_avg_7d": 2.3,
+        "network_in_avg_7d_mbps": 0.1,
+        "network_out_avg_7d_mbps": 0.05,
+        "tags": {"Environment": "production", "Team": "backend"},
+        "monthly_cost": 125.90,
+        "is_zombie": true,
+        "zombie_reason": "CPU utilization below 5% for 7 days"
+      },
+      {
+        "instance_id": "i-0a1b2c3d4e5f60002",
+        "instance_name": "prod-api-server-1",
+        "instance_type": "m5.2xlarge",
+        "state": "running",
+        "region": "us-east-1",
+        "launch_time": "2023-08-15T12:00:00Z",
+        "availability_zone": "us-east-1b",
+        "private_ip": "10.0.1.11",
+        "cpu_utilization_avg_7d": 78.5,
+        "network_in_avg_7d_mbps": 45.2,
+        "network_out_avg_7d_mbps": 120.8,
+        "tags": {"Environment": "production", "Team": "api"},
+        "monthly_cost": 284.00,
+        "is_zombie": false,
+        "zombie_reason": null
+      },
+      {
+        "instance_id": "i-0a1b2c3d4e5f60003",
+        "instance_name": "dev-test-instance",
+        "instance_type": "c5.4xlarge",
+        "state": "stopped",
+        "region": "us-west-2",
+        "launch_time": "2023-03-10T09:00:00Z",
+        "availability_zone": "us-west-2a",
+        "private_ip": "10.0.2.20",
+        "cpu_utilization_avg_7d": 0.0,
+        "tags": {"Environment": "dev", "Team": "testing"},
+        "monthly_cost": 68.00,
+        "is_zombie": true,
+        "zombie_reason": "Instance stopped for 30+ days, still incurring EBS charges"
+      },
+      {
+        "instance_id": "i-0a1b2c3d4e5f60004",
+        "instance_name": "ml-training-node",
+        "instance_type": "p3.8xlarge",
+        "state": "running",
+        "region": "us-east-1",
+        "launch_time": "2023-11-01T14:00:00Z",
+        "cpu_utilization_avg_7d": 3.1,
+        "network_in_avg_7d_mbps": 0.2,
+        "tags": {"Environment": "ml", "Team": "data-science"},
+        "monthly_cost": 2448.00,
+        "is_zombie": true,
+        "zombie_reason": "High-cost GPU instance with <5% CPU usage for 7 days"
+      },
+      {
+        "instance_id": "i-0a1b2c3d4e5f60005",
+        "instance_name": "prod-db-primary",
+        "instance_type": "r5.2xlarge",
+        "state": "running",
+        "region": "us-east-1",
+        "launch_time": "2023-01-20T06:00:00Z",
+        "cpu_utilization_avg_7d": 42.7,
+        "tags": {"Environment": "production", "Team": "database"},
+        "monthly_cost": 365.00,
+        "is_zombie": false,
+        "zombie_reason": null
+      }
+    ],
+    "ebs_volumes": [
+      {
+        "volume_id": "vol-0a1b2c3d4e5f60001",
+        "volume_name": "orphaned-data-vol",
+        "volume_type": "gp2",
+        "size_gb": 500,
+        "state": "available",
+        "region": "us-east-1",
+        "create_time": "2023-05-10T10:00:00Z",
+        "attached_to": null,
+        "iops": 1500,
+        "tags": {},
+        "monthly_cost": 50.00,
+        "is_zombie": true,
+        "zombie_reason": "Unattached EBS volume for 45+ days"
+      },
+      {
+        "volume_id": "vol-0a1b2c3d4e5f60002",
+        "volume_name": "old-backup-vol",
+        "volume_type": "io1",
+        "size_gb": 1000,
+        "state": "available",
+        "region": "us-east-1",
+        "create_time": "2022-12-01T08:00:00Z",
+        "attached_to": null,
+        "iops": 3000,
+        "tags": {"Purpose": "backup"},
+        "monthly_cost": 125.00,
+        "is_zombie": true,
+        "zombie_reason": "Unattached io1 volume — high cost storage wasted"
+      },
+      {
+        "volume_id": "vol-0a1b2c3d4e5f60003",
+        "volume_name": "prod-api-root",
+        "volume_type": "gp3",
+        "size_gb": 100,
+        "state": "in-use",
+        "region": "us-east-1",
+        "attached_to": "i-0a1b2c3d4e5f60002",
+        "monthly_cost": 8.00,
+        "is_zombie": false,
+        "zombie_reason": null
+      }
+    ],
+    "s3_buckets": [
+      {
+        "bucket_name": "old-logs-archive-2022",
+        "region": "us-east-1",
+        "creation_date": "2022-01-01T00:00:00Z",
+        "size_gb": 2400,
+        "object_count": 15000000,
+        "storage_class": "STANDARD",
+        "last_accessed": "2023-01-15T00:00:00Z",
+        "versioning": true,
+        "monthly_cost": 55.20,
+        "is_zombie": true,
+        "zombie_reason": "Large bucket unused for 12+ months — consider Glacier migration"
+      },
+      {
+        "bucket_name": "prod-media-assets",
+        "region": "us-east-1",
+        "creation_date": "2023-03-01T00:00:00Z",
+        "size_gb": 800,
+        "object_count": 250000,
+        "storage_class": "STANDARD",
+        "last_accessed": "2024-01-14T00:00:00Z",
+        "monthly_cost": 18.40,
+        "is_zombie": false
+      }
+    ]
+  },
+  "cost_summary": {
+    "total_monthly_cost": 3547.50,
+    "wasted_monthly_cost": 2746.20,
+    "potential_savings_pct": 77.4,
+    "by_service": {
+      "ec2": 3290.90,
+      "ebs": 183.00,
+      "s3": 73.60
+    },
+    "by_region": {
+      "us-east-1": 3250.40,
+      "us-west-2": 297.10
+    }
+  }
+}
